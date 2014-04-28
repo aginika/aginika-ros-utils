@@ -34,3 +34,4 @@
 - git: {local-name: knowrob, uri: 'git@github.com:knowrob/knowrob.git'}
 - git: {local-name: softkinetic, uri: 'https://github.com/ipa320/softkinetic.git', version: hydro_dev}
 - git: {local-name: git-repos/creative_gesture_camera_launch, uri: 'https://github.com/aginika/creative_gesture_camera_launch.git'}
+- git: {local-name: git-repos/aginika-ros-utils, uri: 'https://github.com/aginika/aginika-ros-utils.git'}
