@@ -1,0 +1,1 @@
+ln -s -b `rospack find aginika-ros-utils`/configs/hydro.rosinstall ~/ros/hydro/src/.rosinstall

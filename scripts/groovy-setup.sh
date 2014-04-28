@@ -1,0 +1,1 @@
+ln -s -b `rospack find aginika-ros-utils`/configs/groovy.rosinstall ~/ros/groovy//.rosinstall
