@@ -40,4 +40,5 @@
 - git: {local-name: pal-robotics, uri: 'https://github.com/pal-robotics/reem_teleop.git'}
 - git: {local-name: git-repos/aginika-ros-utils, uri: 'git@github.com:aginika/aginika-ros-utils.git'}
 - git: {local-name: git-repos/craetive_gesture_camera, uri: 'git@github.com:aginika/creative_gesture_camera_launch.git'}
-- setup-file: {local-name: /home/inagaki/ros/groovy_catkin/devel/setup.sh}
+
+- setup-file: {local-name: ~/ros/groovy_catkin/devel/setup.sh}
