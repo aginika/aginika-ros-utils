@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(aginika-ros-utils)
+project(aginika_ros_utils)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -77,7 +77,7 @@ find_package(catkin REQUIRED)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES aginika-ros-utils
+#  LIBRARIES aginika_ros_utils
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
@@ -91,19 +91,19 @@ catkin_package(
 # include_directories(include)
 
 ## Declare a cpp library
-# add_library(aginika-ros-utils
-#   src/${PROJECT_NAME}/aginika-ros-utils.cpp
+# add_library(aginika_ros_utils
+#   src/${PROJECT_NAME}/aginika_ros_utils.cpp
 # )
 
 ## Declare a cpp executable
-# add_executable(aginika-ros-utils_node src/aginika-ros-utils_node.cpp)
+# add_executable(aginika_ros_utils_node src/aginika_ros_utils_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(aginika-ros-utils_node aginika-ros-utils_generate_messages_cpp)
+# add_dependencies(aginika_ros_utils_node aginika_ros_utils_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(aginika-ros-utils_node
+# target_link_libraries(aginika_ros_utils_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -122,7 +122,7 @@ catkin_package(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS aginika-ros-utils aginika-ros-utils_node
+# install(TARGETS aginika_ros_utils aginika_ros_utils_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -147,7 +147,7 @@ catkin_package(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_aginika-ros-utils.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_aginika_ros_utils.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
