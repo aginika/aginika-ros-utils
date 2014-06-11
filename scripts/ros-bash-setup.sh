@@ -3,6 +3,7 @@
 source `rospack find aginika_ros_utils`/scripts/complitions/robot_complete.sh
 source `rospack find aginika_ros_utils`/scripts/complitions/rosdep-complition.sh
 source `rospack find aginika_ros_utils`/scripts/complitions/wstool-complition.sh
+source `rospack find aginika_ros_utils`/scripts/aginika_rosbash
 
 ##alias or add commands
 cv (){
@@ -19,7 +20,11 @@ alias rosh='cd ~/ros/hydro'     ##ros homespace
 cmb (){
     pushd .;
     rosh;
-    catkin_make $1;
+    if [ $# -gt 1 ];then
+        catkin_make --only-pkg-with-deps $1;
+    else
+        catkin_make;
+    fi
     popd;
 }
 
