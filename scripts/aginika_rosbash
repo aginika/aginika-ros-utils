@@ -1,0 +1,18 @@
+function rosgrep {
+    local rosvals
+    if [[ $1 = "--help" ]]; then
+        echo -e "usage: rosgrep package_target_dir word grep_option"
+        return 0
+    fi
+
+    _ros_decode_path $1 forceeval
+    if [ $? != 0 ]; then
+        echo "rosgrep: No such package/stack '$1'"
+        return 1
+    else
+        grep -R ${@:3:($#-2)} "$2" ${rosvals[1]}${rosvals[2]}${rosvals[3]}
+        return 0
+    fi
+}
+
+complete -F "_roscomplete_sub_dir" -o "nospace" "rosgrep"
