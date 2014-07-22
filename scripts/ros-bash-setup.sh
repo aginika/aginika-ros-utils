@@ -13,6 +13,14 @@ cv (){
    esac
 }
 
+_cv(){
+    arg="${COMP_WORDS[COMP_CWORD]}"
+    COMPREPLY=()
+    COMPREPLY=($(compgen -W "fuerte groovy hydro" -- $arg))
+}
+
+complete -F _cv cv
+
 alias rosc='cd ~/ros/hydro/src' ##ros src
 alias rosh='cd ~/ros/hydro'     ##ros homespace
 
