@@ -14,7 +14,6 @@ class Roschain():
     TopicMode = "topic"
 
     def __init__(self, args):
-        print "Roschain start"
         self.mode=None
         self.get_args(args)
 
@@ -37,11 +36,9 @@ class Roschain():
         if "-n" in args:
             self.mode = Roschain.NodeMode
             print self.mode
-            print "Searching from node"
         elif "-t" in args:
             self.mode = Roschain.TopicMode
             print self.mode
-            print "Searching from topic"
         else:
             self.print_help()
             exit()
@@ -98,6 +95,7 @@ class CursorController:
         self.column = CursorController.MIDDLE
         self.row = 0
         self.curses_object = curses_object
+        self.offset = 3
 
         self.left_rows = []
         self.right_rows = []
@@ -128,7 +126,7 @@ class CursorController:
             if self.column == CursorController.LEFT:
                 self.column = CursorController.MIDDLE
                 self.row = 0
-            elif self.column == CursorController.MIDDLE:
+            elif self.column == CursorController.MIDDLE and len(self.right_rows) != 0:
                 self.column = CursorController.RIGHT
                 self.row = 0
         ##LEFT
@@ -136,7 +134,7 @@ class CursorController:
             if self.column == CursorController.RIGHT:
                 self.column = CursorController.MIDDLE
                 self.row = 0
-            elif self.column == CursorController.MIDDLE:
+            elif self.column == CursorController.MIDDLE and len(self.left_rows) != 0:
                 self.column = CursorController.LEFT
                 self.row = 0
 
@@ -155,9 +153,9 @@ class CursorController:
         if self.column == CursorController.MIDDLE:
             y = int(max_y / 2)
         elif self.column == CursorController.LEFT:
-            y = int(max_y / 2) + self.row - int(len(self.left_rows)/2)
+            y = self.row + self.offset
         elif self.column == CursorController.RIGHT:
-            y = int(max_y / 2) + self.row - int(len(self.right_rows)/2)
+            y = self.row + self.offset
         return (x,y)
 
     def setLeftRows(self, left_rows):
@@ -181,7 +179,10 @@ class CursorController:
     def getRowsPos(self, rows, column):
         max_y, max_x = self.curses_object.getmaxyx()
         x = int(max_x * column / 3)
-        return [(x, int(max_y/2.0) -  int(len(rows)/2.0) + row) for row in range(len(rows))]
+        if column == CursorController.MIDDLE:
+            return [(x, int(max_y/2))]
+        else:
+            return [(x, self.offset + row) for row in range(len(rows))]
 
     def drawRows(self, rows, rows_pos, column):
         cursor_x, cursor_y = self.getCursorXY()
@@ -214,9 +215,9 @@ class CursorController:
     def getTargetCell(self, cursor_x, cursor_y):
         max_y, max_x = self.curses_object.getmaxyx()
         if self.column == CursorController.LEFT:
-            return self.left_rows[cursor_y - int(max_y/2.0) + int(len(self.left_rows)/2)]
+            return self.left_rows[cursor_y  - self.offset]
         elif self.column == CursorController.RIGHT:
-            return self.right_rows[cursor_y - int(max_y/2.0) + int(len(self.left_rows)/2)]
+            return self.right_rows[cursor_y - self.offset]
 
     def checkAbleUpdate(self):
         if self.column == CursorController.MIDDLE:
