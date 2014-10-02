@@ -3,6 +3,7 @@
 source `rospack find aginika_ros_utils`/scripts/complitions/robot_complete.sh
 source `rospack find aginika_ros_utils`/scripts/complitions/rosdep-complition.sh
 source `rospack find aginika_ros_utils`/scripts/complitions/wstool-complition.sh
+source `rospack find aginika_ros_utils`/scripts/complitions/roschain-complition.sh
 source `rospack find aginika_ros_utils`/scripts/aginika_rosbash
 
 ##alias or add commands
