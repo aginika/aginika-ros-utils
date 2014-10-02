@@ -35,10 +35,8 @@ class Roschain():
         ##if input has "-n"
         if "-n" in args:
             self.mode = Roschain.NodeMode
-            print self.mode
         elif "-t" in args:
             self.mode = Roschain.TopicMode
-            print self.mode
         else:
             self.print_help()
             exit()
@@ -67,9 +65,6 @@ class Roschain():
 
         topic_types = rostopic._master_get_topic_types(master)
         return (pubs, subs)
-
-    def get_mode(self):
-        return self.mode
 
     def change_mode(self):
         if self.mode == Roschain.NodeMode:
@@ -103,7 +98,9 @@ class CursorController:
 
         curses.init_pair(1, curses.COLOR_RED, curses.COLOR_WHITE)
         curses.init_pair(2, curses.COLOR_BLUE, curses.COLOR_WHITE)
-
+        curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)
+        curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)
+        curses.init_pair(5, curses.COLOR_GREEN, curses.COLOR_BLACK)
 
     def resetCursor(self):
         self.row = 0
@@ -184,14 +181,27 @@ class CursorController:
         else:
             return [(x, self.offset + row) for row in range(len(rows))]
 
-    def drawRows(self, rows, rows_pos, column):
+    def drawRows(self, rows, rows_pos, column, mode):
         cursor_x, cursor_y = self.getCursorXY()
+        color_target_pair = curses.color_pair(3)
+
+        ##Set the topics or nodes color
+        if mode == Roschain.NodeMode and column == CursorController.MIDDLE:
+            color_target_pair = curses.color_pair(4)
+        elif mode == Roschain.TopicMode and column == CursorController.MIDDLE:
+            color_target_pair = curses.color_pair(3)
+        elif mode == Roschain.NodeMode and column != CursorController.MIDDLE:
+            color_target_pair = curses.color_pair(3)
+        elif mode == Roschain.TopicMode and column != CursorController.MIDDLE:
+            color_target_pair = curses.color_pair(4)
+
+        ##Draw the names
         for i,row in enumerate(rows):
             x,y = rows_pos[i]
             if (column == self.column and cursor_y == y):
                 self.curses_object.addstr(y,x,str(row), curses.A_REVERSE)
             else:
-                self.curses_object.addstr(y,x,str(row))
+                self.curses_object.addstr(y,x,str(row), color_target_pair)
 
     def drawTopBar(self, mode):
         _, max_x = self.curses_object.getmaxyx()
@@ -206,11 +216,27 @@ class CursorController:
             self.curses_object.addstr(0,  column_width,  " "*offset+"Topic"+" "*offset, curses.color_pair(1) )
             self.curses_object.addstr(0,  column_width*2,  " "*offset+"Node "+" "*offset, curses.color_pair(2) )
 
+    def drawBottomBar(self, mode):
+        max_y ,max_x= self.curses_object.getmaxyx()
+        if self.column == CursorController.LEFT and mode == Roschain.NodeMode:
+            target_topic = self.left_rows[self.row]
+            target_type,_,_ = rostopic.get_topic_type(target_topic)
+            self.curses_object.addstr(max_y - 1, 0, target_type, curses.color_pair(5))
+        if self.column == CursorController.RIGHT and mode == Roschain.NodeMode:
+            target_topic = self.right_rows[self.row]
+            target_type,_,_ = rostopic.get_topic_type(target_topic)
+            self.curses_object.addstr(max_y - 1, 0, target_type, curses.color_pair(5))
+
+        ##Draw line
+        for j in range(max_x):
+            self.curses_object.addch(max_y - 2, j, curses.ACS_HLINE);
+
     def drawAllRows(self, mode):
-        self.drawRows(self.left_rows, self.getLeftRowsPos(), CursorController.LEFT)
-        self.drawRows(self.middle_rows, self.getMiddleRowsPos(), CursorController.MIDDLE)
-        self.drawRows(self.right_rows, self.getRightRowsPos(), CursorController.RIGHT)
+        self.drawRows(self.left_rows, self.getLeftRowsPos(), CursorController.LEFT, mode)
+        self.drawRows(self.middle_rows, self.getMiddleRowsPos(), CursorController.MIDDLE, mode)
+        self.drawRows(self.right_rows, self.getRightRowsPos(), CursorController.RIGHT, mode)
         self.drawTopBar(mode)
+        self.drawBottomBar(mode)
 
     def getTargetCell(self, cursor_x, cursor_y):
         max_y, max_x = self.curses_object.getmaxyx()
@@ -230,15 +256,10 @@ def curses_main(args):
     w    = curses.initscr()
     curses.cbreak()
     curses.noecho()
-    # w.keypad(1)
+    curses.curs_set(0)
     cc = CursorController(w)
 
-    pubs = []
-    subs = []
-    if rc.get_mode() == Roschain.NodeMode:
-        pubs,subs = rc.get_rosnode_info(rc.target)
-    else:
-        pubs,subs = rc.get_rostopic_info(rc.target)
+    pubs,subs = rc.get_pub_sub_infos()
 
     cc.setLeftRows(pubs)
     cc.setMiddleRow(rc.target)
@@ -281,24 +302,6 @@ def curses_main(args):
             ##Update Infos
                 cc.registerNewLeftRightRows(pubs,subs)
         elif s == curses.ascii.SOH: ##^a
-            pass
-        elif s == curses.ascii.EOT: ##^d
-            pass
-        elif s == curses.ascii.ENQ: ##^e
-            pass
-        elif s == curses.ascii.ACK: ##^f
-            pass
-        elif s == curses.ascii.BEL: ##^g
-            pass
-        elif s == curses.ascii.NL:  ##^k
-            pass
-        elif s == curses.ascii.FF:  ##^l
-            pass
-        elif s == curses.ascii.SO:  ##^n
-            pass
-        elif s == curses.ascii.SI:  ##^o
-            pass
-        elif s == curses.ascii.DLE: ##^p
             pass
         else:
             a = w.getyx()
