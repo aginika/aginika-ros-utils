@@ -1,3 +1,5 @@
+##add PATH BINS
+export PATH=$PATH:`rospack find aginika_ros_utils`/scripts/bin
 
 ##Source the util ros sh files
 source `rospack find aginika_ros_utils`/scripts/complitions/robot_complete.sh
