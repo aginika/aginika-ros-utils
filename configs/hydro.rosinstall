@@ -35,4 +35,5 @@
 - git: {local-name: git-repos/creative_gesture_camera_launch, uri: 'git@github.com:aginika/creative_gesture_camera_launch.git'}
 - git: {local-name: git-repos/aginika_ros_utils, uri: 'git@github.com:aginika/aginika-ros-utils.git'}
 - git: {local-name: git-repos/aginika_pcl_ros, uri: 'git@github.com:aginika/aginika-pcl-ros.git'}
+- git: {local-name: git-repos/aginika_machine_learning, uri: 'git@github.com:aginika/aginika_machine_learning.git'}
 - git: {local-name: git-repos/aginika_ros_debug_tools, uri: 'git@github.com:aginika/aginika_ros_debug_tools.git'}
