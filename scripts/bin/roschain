@@ -96,11 +96,13 @@ class CursorController:
         self.right_rows = []
         self.middle_rows = []
 
+        self.prev_name = ""
         curses.init_pair(1, curses.COLOR_RED, curses.COLOR_WHITE)
         curses.init_pair(2, curses.COLOR_BLUE, curses.COLOR_WHITE)
         curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)
         curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)
         curses.init_pair(5, curses.COLOR_GREEN, curses.COLOR_BLACK)
+        curses.init_pair(6, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 
     def resetCursor(self):
         self.row = 0
@@ -196,10 +198,29 @@ class CursorController:
             color_target_pair = curses.color_pair(4)
 
         ##Draw the names
-        for i,row in enumerate(rows):
+        m_y, max_x = self.curses_object.getmaxyx()
+        max_y =  m_y - 5 # for top and bottom space
+        offset = 0
+
+        if self.row >= max_y and self.column == column:
+            offset = self.row - max_y + 1
+
+        target_rows = rows[offset:offset+max_y]
+        for i,row in enumerate(target_rows):
+            if i > max_y:
+                break
+            
             x,y = rows_pos[i]
-            if (column == self.column and cursor_y == y):
-                self.curses_object.addstr(y,x,str(row), curses.A_REVERSE)
+            if y > m_y - 1:
+                break
+            real_cursor_y = min(cursor_y, max_y+2)
+            if (column == self.column and real_cursor_y == y):
+                if y < max_y+2:
+                    self.curses_object.addstr(y,x,str(row), curses.A_REVERSE)
+                else:
+                    self.curses_object.addstr(max_y+2,x,str(row), curses.A_REVERSE)              
+            elif self.prev_name == str(row):
+                self.curses_object.addstr(y,x,str(row), curses.color_pair(6))
             else:
                 self.curses_object.addstr(y,x,str(row), color_target_pair)
 
@@ -239,6 +260,9 @@ class CursorController:
         self.drawBottomBar(mode)
 
     def getTargetCell(self, cursor_x, cursor_y):
+        #store current name
+        self.prev_name = self.middle_rows[0]
+
         max_y, max_x = self.curses_object.getmaxyx()
         if self.column == CursorController.LEFT:
             return self.left_rows[cursor_y  - self.offset]
@@ -309,7 +333,6 @@ def curses_main(args):
         w.clear()
         cc.drawAllRows(rc.mode)
         cursor_x, cursor_y = cc.getCursorXY()
-        w.move(cursor_y, cursor_x)
 
 
 if __name__=="__main__":
