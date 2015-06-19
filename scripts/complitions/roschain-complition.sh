@@ -21,5 +21,3 @@ function _roscomplete_roschain {
 }
 
 complete -F "_roscomplete_roschain" "roschain"
-
-
