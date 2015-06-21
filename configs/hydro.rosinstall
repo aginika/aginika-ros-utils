@@ -28,11 +28,14 @@
     uri: git@github.com:jsk-ros-pkg/jsk_demos.git
     local-name: jsk-ros-pkg/jsk_demos
 - git:
+    uri: git@github.com:jsk-ros-pkg/jsk_common.git
+    local-name: jsk-ros-pkg/jsk_common
+- git:
     uri: git@github.com:jsk-ros-pkg/jsk_control.git
     local-name: jsk-ros-pkg/jsk_control
 - git:
-    uri: git@github.com:jsk-ros-pkg/jsk_common.git
-    local-name: jsk-ros-pkg/jsk_common
+    uri: git@github.com:jsk-ros-pkg/jsk_smart_apps.git
+    local-name: jsk-ros-pkg/jsk_smart_apps
 
 # for snap map icp
 - git:

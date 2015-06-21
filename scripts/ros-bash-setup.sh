@@ -40,7 +40,7 @@ cmb (){
 }
 
 #roseus setting
-alias roseus='rlwrap roseus'
+#alias roseus='rlwrap roseus'
 
 #rosed setting
 export EDITOR='emacs -nw'
