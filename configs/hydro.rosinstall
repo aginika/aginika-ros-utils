@@ -36,6 +36,9 @@
 - git:
     uri: git@github.com:jsk-ros-pkg/jsk_smart_apps.git
     local-name: jsk-ros-pkg/jsk_smart_apps
+- git:
+    uri: git@github.com:jsk-ros-pkg/jsk_common_msgs.git
+    local-name: jsk-ros-pkg/jsk_common_msgs
 
 # for snap map icp
 - git:
@@ -121,3 +124,4 @@
 - git: {local-name: git-repos/client_rosjava_jni, uri: 'git@github.com:gheorghelisca/rosjava_jni.git'}
 - git: {local-name: git-repos/aginika_footstep_reconfigure, uri: 'git@github.com:aginika/aginika_footstep_reconfigure.git'}
 - git: {local-name: git-repos/aginika_object_georelation, uri: 'git@github.com:aginika/aginika_object_georelation.git'}
+- git: {local-name: git-repos/aginika_demos, uri: 'git@github.com:aginika/aginika_demos.git'}
